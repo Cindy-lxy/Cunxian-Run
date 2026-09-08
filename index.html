@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>存贤快跑</title>
+    <link rel="stylesheet" href="styles.css?v=20260820c" />
+    <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow" id="heroEyebrow">Broadway Runner · Level 1</p>
+          <h1>存贤快跑</h1>
+          <p class="subtitle" id="heroSubtitle">
+            欢迎来到亚洲第一杀神【李存贤】的游戏世界。这里收录了他近年来在各大音乐剧里饰演的角色：
+            从0528 站上百老汇舞台的少年 Eggy，到武侠竹林里挥剑的飞龙；从意大利小赌场的 Stevie，
+            到夏日海岛上的 小松；从粉丝来信里的马克梵，到好莱坞的尼古拉斯……选一关，穿越到他们的世界，
+            用一段跳跃与滑翔体验存贤演过的每一段剧情。
+          </p>
+        </div>
+        <div class="legend-card">
+          <div class="legend-row">
+            <span>操作</span>
+            <strong>电脑：空格 / ↑ / W；手机：点按钮或点屏幕</strong>
+          </div>
+          <div class="legend-row">
+            <span>规则</span>
+            <strong>每次点击跳跃会补充一段向上的跃力，达到 1500 分即可通关，通关后会变成地狱难度，可选择继续挑战或直接跳转下一关</strong>
+          </div>
+          <div class="legend-row">
+            <span>目标</span>
+            <strong>所有的物品都是障碍，记住一定要躲开舞台障碍，跑出最高分</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-stage">
+        <div class="hud">
+          <div class="badge" id="levelBadge">第一关 · 0528 百老汇舞台</div>
+          <div class="hud-side">
+            <button id="muteToggleButton" class="sound-toggle-button" type="button" aria-pressed="false" aria-label="关闭背景音乐">🔊 音乐开</button>
+            <div class="scoreboard">
+              <div>
+                <span>当前分数</span>
+                <strong id="score">0</strong>
+              </div>
+              <div>
+                <span>最高纪录</span>
+                <strong id="bestScore">0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <canvas id="gameCanvas" width="1280" height="720" aria-label="存贤快跑游戏画布"></canvas>
+
+        <div class="mobile-controls" aria-label="移动端操作区">
+          <button id="jumpButton" class="jump-button" type="button">跳一下</button>
+          <p class="mobile-tip">手机端可点按钮或直接点画面，电脑端可用空格 / ↑ / W。</p>
+        </div>
+
+        <div class="orientation-tip" id="orientationTip" aria-live="polite">
+          <div class="orientation-tip-card">
+            <p class="orientation-tip-tag">手机游玩提示</p>
+            <h3>建议横屏体验</h3>
+            <p>横过来玩会更容易看到完整画面和障碍物，体验会顺很多。</p>
+            <button id="dismissOrientationTipButton" type="button">知道了</button>
+          </div>
+        </div>
+
+        <div class="overlay overlay-visible" id="startOverlay">
+          <div class="overlay-card overlay-card-select">
+            <p class="overlay-tag">Select Level</p>
+            <h2>选择关卡</h2>
+            <p>
+              现在十关都可以直接进入，不用解锁。第一关是百老汇舞台跑酷，第二关是“粉丝来信”图书馆跑酷，
+              第三关是武侠竹林决斗跑酷，第四关是桑塔露琪亚意大利小赌场跑酷，第五关是“邦尼帮你的小家”温馨家庭跑酷，第六关是“三风一树”老上海滩跑酷，第七关是“双重危机”好莱坞舞台跑酷，第八关是“本杰明·巴顿奇事”复古舞台跑酷，第九关是“去你的夏天”海岛跑酷，第十关是“宝玉”红楼梦跑酷，都保留连续抛物线跳跃玩法，你可以随时自由选择。
+            </p>
+            <div class="level-select-grid">
+              <article class="level-preview-card level-preview-card-1">
+                <p class="preview-kicker">Level 1</p>
+                <h3>0528 · Eggy</h3>
+                <p>欢迎来到《0528》的百老汇舞台世界，你将以李存贤饰演的 Eggy 的身份进行游玩：幕布、灯光、乐符与小鬼陪你一路狂奔。</p>
+                <button id="startLevel1Button" type="button">进入第一关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-2">
+                <p class="preview-kicker">Level 2</p>
+                <h3>粉丝来信 · 马克梵</h3>
+                <p>欢迎来到《粉丝来信》的图书馆世界，你将以李存贤饰演的 马克梵 的身份进行游玩：真实书本、书桌与信件在暖灯下等你翻越。</p>
+                <button id="startLevel2Button" type="button">进入第二关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-3">
+                <p class="preview-kicker">Level 3</p>
+                <h3>决斗 · 飞龙</h3>
+                <p>欢迎来到《决斗》的武侠竹林世界，你将以李存贤饰演的 飞龙 的身份进行游玩：竹影墨山、飞镖暗器与刀光交错的江湖对决。</p>
+                <button id="startLevel3Button" type="button">进入第三关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-4">
+                <p class="preview-kicker">Level 4</p>
+                <h3>桑塔露琪亚 · Stevie</h3>
+                <p>欢迎来到《桑塔露琪亚》的意大利小赌场世界，你将以李存贤饰演的 Stevie 的身份进行游玩：黄玫瑰、手枪、轮盘与披萨在金色灯下翻涌。</p>
+                <button id="startLevel4Button" type="button">进入第四关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-5">
+                <p class="preview-kicker">Level 5</p>
+                <h3>邦尼帮你 · 方崇心</h3>
+                <p>欢迎来到《邦尼帮你》的温馨小家世界，你将以李存贤饰演的 方崇心 的身份进行游玩：格纹沙发、花墙、星星灯串与老电视的午后。</p>
+                <button id="startLevel5Button" type="button">进入第五关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-6">
+                <p class="preview-kicker">Level 6</p>
+                <h3>三风一树 · 德厚</h3>
+                <p>欢迎来到《三风一树》的老上海世界，你将以李存贤饰演的 德厚 的身份进行游玩：石库门、外滩洋楼、霓虹与旧报纸铺开成时代街道。</p>
+                <button id="startLevel6Button" type="button">进入第六关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-7">
+                <p class="preview-kicker">Level 7</p>
+                <h3>双重危机 · 鲍比·马丁</h3>
+                <p>欢迎来到《双重危机》的好莱坞舞台世界，你将以李存贤饰演的 鲍比·马丁 的身份进行游玩：Hollywood 山丘、红毯、聚光灯与小金人在双重危机里齐袭。</p>
+                <button id="startLevel7Button" type="button">进入第七关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-8">
+                <p class="preview-kicker">Level 8</p>
+                <h3>本杰明·巴顿奇事 · Bystander</h3>
+                <p>欢迎来到《本杰明·巴顿奇事》的时光世界，你将以李存贤饰演的 Bystander 的身份进行游玩：蒸汽船码头、倒流的时钟与漫天纸飞机。</p>
+                <button id="startLevel8Button" type="button">进入第八关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-9">
+                <p class="preview-kicker">Level 9</p>
+                <h3>去你的夏天 · 小松</h3>
+                <p>欢迎来到《去你的夏天》的海岛世界，你将以李存贤饰演的 小松 的身份进行游玩：蔚蓝大海、金色沙滩、椰子树、肉骨茶与热带花。</p>
+                <button id="startLevel9Button" type="button">进入第九关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-10">
+                <p class="preview-kicker">Level 10</p>
+                <h3>宝玉 · 薛蟠</h3>
+                <p>欢迎来到《宝玉》的大观园红楼世界，你将以李存贤饰演的 薛蟠 的身份进行游玩：粉墙黛瓦、桃花落英、红灯笼与太湖石铺开的胭脂胭红。</p>
+                <button id="startLevel10Button" type="button">进入第十关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-11">
+                <p class="preview-kicker">Level 11</p>
+                <h3>辛吉路画材店 · 辛吉</h3>
+                <p>欢迎来到辛吉路画材店的世界，你将以李存贤饰演的 辛吉 的身份进行游玩：暖黄灯光、成排的颜料瓶架、画笔筒、调色盘与未完成的画布。</p>
+                <button id="startLevel11Button" type="button">进入第十一关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-12">
+                <p class="preview-kicker">Level 12</p>
+                <h3>致命旋律 · 尼古拉斯</h3>
+                <p>欢迎来到《致命旋律》的音乐会世界，你将以李存贤饰演的 尼古拉斯 的身份进行游玩：聚光灯、五线谱与黑白琴键立柱，用拍翅膀在乐章里滑翔。</p>
+                <button id="startLevel12Button" type="button">进入第十二关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-13">
+                <p class="preview-kicker">Level 13</p>
+                <h3>西西里的人鱼传说 · 李屿</h3>
+                <p>欢迎来到《西西里的人鱼传说》的地中海海边小镇世界，你将以李存贤饰演的 李屿 的身份进行游玩：蓝色海岸、白墙橙顶建筑、渔船与海风；锚、鱼钩、浮标、渔网、鱼群和海草都会来捣乱。</p>
+                <button id="startLevel13Button" type="button">进入第十三关</button>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay" id="levelCompleteOverlay">
+          <div class="overlay-card overlay-card-compact">
+            <p class="overlay-tag">Level Complete</p>
+            <h2 id="levelCompleteTitle">恭喜通关！</h2>
+            <p id="levelCompleteText">你已完成当前关卡，最终分数为 0 分。</p>
+            <p id="levelCompleteFinalText" class="overlay-emphasis">最终分数：0</p>
+            <div class="overlay-actions">
+              <button id="replayLevelButton" type="button">继续闯关</button>
+              <button id="nextLevelButton" type="button">进入下一关</button>
+              <button id="backToLevelSelectButton" type="button" class="secondary-button">返回选关</button>
+            </div>
+            <p id="allLevelsCompleteText" class="overlay-helper" hidden>你已完成全部关卡。</p>
+          </div>
+        </div>
+
+        <div class="overlay" id="gameOverOverlay">
+          <div class="overlay-card">
+            <p class="overlay-tag">Curtain Call</p>
+            <h2>演出暂时落幕</h2>
+            <p id="finalScoreText">你拿到了 0 分。</p>
+            <div class="overlay-actions">
+              <button id="restartButton" type="button">再来一局</button>
+              <button id="backToMenuButton" type="button" class="secondary-button">返回选关</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js?v=20260820c"></script>
+  </body>
+</html>
