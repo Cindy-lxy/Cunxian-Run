@@ -50,7 +50,7 @@ const LEVELS = {
     subtitle: '像小恐龙快跑一样一路冲刺，但每按一次跳跃键都会补一段向上的跃力，整体轨迹会形成更自然的连续抛物线。第一关改成了 0528 音乐剧灵感的百老汇舞台：幕布、灯光、阳台、乐符、道具箱和飘来飘去的小鬼都会变成背景或障碍物。',
     badge: '第一关 · 0528 百老汇舞台',
     endText: '百老汇舞台暂时落幕。',
-    heroAsset: 'assets/cunxian-chibi.png',
+    heroAsset: 'assets/cunxian-chibi.png?v=20260910-originals',
   },
   2: {
     id: 2,
@@ -58,7 +58,7 @@ const LEVELS = {
     subtitle: '第二关变成粉丝来信音乐剧的图书馆舞台：高书架、杂志、小说、粉丝来信、信封和阅读灯会从四周涌来。主角换成新的来信主题形象，但整体仍保持同一套Q版音乐剧风格。',
     badge: '第二关 · 粉丝来信图书馆',
     endText: '粉丝来信的书页慢慢合上了。',
-    heroAsset: 'assets/cunxian-level2.png',
+    heroAsset: 'assets/cunxian-level2.png?v=20260910-originals',
   },
   3: {
     id: 3,
@@ -66,7 +66,7 @@ const LEVELS = {
     subtitle: '第三关进入武侠竹林决斗场：青竹、飞镖暗器、寒光长剑和山石会从林间袭来，整体是偏青绿与墨色的决斗氛围。背景里会看到远山与竹影深处，让武侠感更完整。',
     badge: '第三关 · 武侠竹林决斗',
     endText: '竹影与刀光一起静了下来。',
-    heroAsset: 'assets/cunxian-level3.png',
+    heroAsset: 'assets/cunxian-level3.png?v=20260910-originals',
   },
   4: {
     id: 4,
@@ -74,7 +74,7 @@ const LEVELS = {
     subtitle: '第四关来到桑塔露琪亚意大利小赌场：暖红天幕、金色灯牌、轮盘赌、黄玫瑰、披萨和手枪元素会一起出现，整体是热烈又危险的意式赌场舞台感。',
     badge: '第四关 · 桑塔露琪亚小赌场',
     endText: '桑塔露琪亚的筹码声慢慢停下来了。',
-    heroAsset: 'assets/cunxian-level4.png',
+    heroAsset: 'assets/cunxian-level4.png?v=20260910-originals',
   },
   5: {
     id: 5,
@@ -82,7 +82,7 @@ const LEVELS = {
     subtitle: '第五关来到“邦尼帮你的小家”：格纹沙发、花墙、星星灯串、木质小屋内景、书桌、老电视和地图贴纸会把舞台变成温馨家庭小屋，整体是偏米色、暖黄和绿色的治愈氛围。',
     badge: '第五关 · 邦尼帮你的小家',
     endText: '小家的灯光慢慢安静下来了。',
-    heroAsset: 'assets/cunxian-level5.png',
+    heroAsset: 'assets/cunxian-level5.png?v=20260910-originals',
   },
   6: {
     id: 6,
@@ -90,7 +90,7 @@ const LEVELS = {
     subtitle: '第六关来到“三风一树”音乐剧背景下的老上海滩：石库门、外滩洋楼、霓虹招牌和民国街景会铺开成抗战时期的申城舞台。电影胶片、放映机、复古相机、咖啡杯和旧报纸会不断出现，整体是深棕、暗红和米黄色的复古氛围。',
     badge: '第六关 · 三风一树上海滩',
     endText: '申城夜色里的霓虹慢慢暗了下来。',
-    heroAsset: 'assets/cunxian-level6.png',
+    heroAsset: 'assets/cunxian-level6.png?v=20260910-originals',
   },
   7: {
     id: 7,
@@ -98,7 +98,7 @@ const LEVELS = {
     subtitle: '第七关来到“双重危机”的好莱坞舞台：山丘上的 Hollywood 字牌、星光大道、红毯、聚光灯、奥斯卡小金人、电影胶卷和摄影机会一起铺开。地面障碍和空中障碍更容易成组出现，像一场金红黑配色的华丽危机。',
     badge: '第七关 · 双重危机好莱坞舞台',
     endText: '好莱坞的闪光灯终于暂时暗了下来。',
-    heroAsset: 'assets/cunxian-level7.png',
+    heroAsset: 'assets/cunxian-level7.png?v=20260910-originals',
   },
   8: {
     id: 8,
@@ -106,7 +106,7 @@ const LEVELS = {
     subtitle: '第八关来到“本杰明·巴顿奇事”的复古时间舞台：褪色暖棕色调、老式时钟、倒流沙漏、蒸汽船码头、新奥尔良南方建筑、旧行李箱、胶片边框和蜂鸟会一起出现，像在时间逆流里奔跑。',
     badge: '第八关 · 本杰明·巴顿奇事',
     endText: '倒流的时钟轻轻停在码头雾气里。',
-    heroAsset: 'assets/cunxian-level8.png',
+    heroAsset: 'assets/cunxian-level8.png?v=20260910-originals',
   },
   9: {
     id: 9,
@@ -114,7 +114,7 @@ const LEVELS = {
     subtitle: '第九关来到“去你的夏天”海岛舞台：蔚蓝大海、金色沙滩、椰子树、热带花、海草、肉骨茶、海浪、贝壳、冲浪板和灿烂阳光会铺开成明亮清爽的夏日画卷。整体是清新明快的蓝、绿、橙、黄配色，让你在海风中一路疾驰。',
     badge: '第九关 · 去你的夏天海岛',
     endText: '海边的晚霞慢慢铺满了沙滩。',
-    heroAsset: 'assets/cunxian-level9.png',
+    heroAsset: 'assets/cunxian-level9.png?v=20260910-originals',
   },
   10: {
     id: 10,
@@ -122,7 +122,7 @@ const LEVELS = {
     subtitle: '第十关来到“宝玉”的红楼梦舞台：大观园、粉墙黛瓦、桃花落英、红灯笼、曲折游廊、假山太湖石和荷花池铺开成古典柔美的梦境。整体以胭脂红、粉、绿与金色为主，像在诗词和落花里奔跑。',
     badge: '第十关 · 宝玉红楼梦',
     endText: '花影深处，怡红院的灯笼轻轻亮起。',
-    heroAsset: 'assets/cunxian-level10.png',
+    heroAsset: 'assets/cunxian-level10.png?v=20260910-originals',
   },
   11: {
     id: 11,
@@ -130,7 +130,7 @@ const LEVELS = {
     subtitle: '第十一关来到上海辛吉路的画材店：暖黄灯光下的展示架、成排的颜料瓶、画笔筒、调色盘、素描板和未完成的画布铺开成一条温柔的艺术街。障碍变成画架、颜料桶、画框和素描凳，一路穿过散落的画材奔跑。',
     badge: '第十一关 · 辛吉路画材店',
     endText: '画笔和颜料在暖灯下安静地睡着了。',
-    heroAsset: 'assets/cunxian-level11.png',
+    heroAsset: 'assets/cunxian-level11.png?v=20260910-originals',
   },
   12: {
     id: 12,
@@ -138,7 +138,7 @@ const LEVELS = {
     subtitle: '第十二关变成飞行玩法：「致命旋律」音乐会舞台，卷发小人在聚光灯下滑翔，点击/空格轻拍气流上升，松开缓慢下坠。障碍是黑白琴键做成的一对对立柱，中间留出通道穿过。背景有音乐厅、五线谱与飘浮的音符，配色黑白 + 金色。',
     badge: '第十二关 · 致命旋律',
     endText: '聚光灯下的乐章缓缓落幕。',
-    heroAsset: 'assets/cunxian-level12.png',
+    heroAsset: 'assets/cunxian-level12.png?v=20260910-originals',
   },
   13: {
     id: 13,
@@ -146,7 +146,7 @@ const LEVELS = {
     subtitle: '第十三关来到「西西里的人鱼传说」的地中海海边小镇：地中海蓝色海岸、白墙橙顶的小镇建筑、渔船和海风会一路后退。锚、鱼钩、浮标、渔网、鱼群和海草都会变成障碍物——记住，所有物品都是障碍，一定要躲开舞台上的海边陷阱，跑出最高分。',
     badge: '第十三关 · 西西里的人鱼传说',
     endText: '西西里海风里的人鱼传说暂时收进了浪花。',
-    heroAsset: 'assets/cunxian-level13.png?v=20260820c',
+    heroAsset: 'assets/cunxian-level13.png?v=20260910-originals',
   },
 };
 
