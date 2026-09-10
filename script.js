@@ -191,9 +191,12 @@ const LEVEL_MUSIC = {
 const MENU_MUSIC_VOLUME = 0.12;
 const backgroundMusic = new Audio();
 backgroundMusic.loop = true; // 循环播放，前后无缝衔接
-backgroundMusic.preload = 'none';
+backgroundMusic.preload = 'auto'; // 提前加载音频，播放时秒响
 backgroundMusic.volume = MENU_MUSIC_VOLUME;
 backgroundMusic.playsInline = true;
+backgroundMusic.crossOrigin = 'anonymous';
+// 记录最近一次未能播放的失败，等待用户下次交互再尝试
+let pendingPlayResume = false;
 
 const state = {
   running: false,
@@ -312,8 +315,9 @@ async function syncBackgroundMusic() {
   backgroundMusic.muted = state.audioMuted;
   backgroundMusic.loop = true; // 每次都强制单曲循环，避免被外部意外改动
   const targetSrc = getCurrentTrackSrc();
-  if (!targetSrc || state.audioMuted || !state.audioUnlocked) {
-    backgroundMusic.pause();
+  if (!targetSrc || state.audioMuted) {
+    try { backgroundMusic.pause(); } catch (e) { /* ignore */ }
+    pendingPlayResume = false;
     return;
   }
   // 切换关卡时如果曲目变了，重新指向新文件；用 endsWith 避免 http://host/ 前缀影响判断
@@ -323,15 +327,20 @@ async function syncBackgroundMusic() {
     backgroundMusic.src = targetSrc;
     try { backgroundMusic.load(); } catch (e) { /* ignore */ }
   }
+  if (!state.audioUnlocked) {
+    // 还没拿到用户手势，等待第一次交互再触发播放
+    pendingPlayResume = true;
+    return;
+  }
   try {
-    await backgroundMusic.play();
+    const playPromise = backgroundMusic.play();
+    if (playPromise && typeof playPromise.then === 'function') {
+      await playPromise;
+    }
+    pendingPlayResume = false;
   } catch (e) {
-    // 浏览器要求先交互 或 切换 src 竞态：监听一次 canplay 后重试
-    const retry = () => {
-      backgroundMusic.removeEventListener('canplay', retry);
-      backgroundMusic.play().catch(() => {});
-    };
-    backgroundMusic.addEventListener('canplay', retry);
+    // 浏览器要求先交互（NotAllowedError）或切歌竞态（AbortError）：等待下一次用户手势再试
+    pendingPlayResume = true;
   }
 }
 
@@ -385,11 +394,41 @@ function refreshCompletionStamps() {
 
 function bindAudioUnlockGestures() {
   const tryResume = () => {
+    const wasUnlocked = state.audioUnlocked;
     state.audioUnlocked = true;
+    // 用户手势内同步触发一次 play()，让浏览器在这一次调用里授予音频权限
+    if (!state.audioMuted) {
+      const targetSrc = getCurrentTrackSrc();
+      if (targetSrc) {
+        try {
+          const needSwitch = !backgroundMusic.src || !backgroundMusic.src.endsWith(targetSrc);
+          if (needSwitch) {
+            backgroundMusic.src = targetSrc;
+            try { backgroundMusic.load(); } catch (e) { /* ignore */ }
+          }
+          const playPromise = backgroundMusic.play();
+          if (playPromise && typeof playPromise.then === 'function') {
+            playPromise.then(() => { pendingPlayResume = false; }).catch(() => { pendingPlayResume = true; });
+          } else {
+            pendingPlayResume = false;
+          }
+        } catch (e) {
+          pendingPlayResume = true;
+        }
+      }
+    }
+    // 再走一次同步，保证 src 与关卡匹配
     syncBackgroundMusic();
+    if (!wasUnlocked) {
+      // 第一次解锁完成后，剩下的手势只需要做「续播」，不用重复重置
+    }
   };
-  window.addEventListener('pointerdown', tryResume, { passive: true });
+  const opts = { passive: true };
+  window.addEventListener('pointerdown', tryResume, opts);
+  window.addEventListener('touchstart', tryResume, opts);
+  window.addEventListener('mousedown', tryResume, opts);
   window.addEventListener('keydown', tryResume);
+  window.addEventListener('click', tryResume, opts);
 }
 
 const player = {
