@@ -1,0 +1,7 @@
+# Local visual fixtures
+/tests/heroic-visual.html
+/tests/illustrated-visual-*.html
+/tests/strauss-visual.html
+
+.DS_Store
+*.zip

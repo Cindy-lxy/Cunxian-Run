@@ -19,6 +19,9 @@ const startLevel10Button = document.getElementById('startLevel10Button');
 const startLevel11Button = document.getElementById('startLevel11Button');
 const startLevel12Button = document.getElementById('startLevel12Button');
 const startLevel13Button = document.getElementById('startLevel13Button');
+const startLevel14Button = document.getElementById('startLevel14Button');
+const startLevel15Button = document.getElementById('startLevel15Button');
+const startLevel16Button = document.getElementById('startLevel16Button');
 const restartButton = document.getElementById('restartButton');
 const backToMenuButton = document.getElementById('backToMenuButton');
 const jumpButton = document.getElementById('jumpButton');
@@ -130,7 +133,7 @@ const LEVELS = {
     subtitle: '第十一关来到上海辛吉路的画材店：暖黄灯光下的展示架、成排的颜料瓶、画笔筒、调色盘、素描板和未完成的画布铺开成一条温柔的艺术街。障碍变成画架、颜料桶、画框和素描凳，一路穿过散落的画材奔跑。',
     badge: '第十一关 · 辛吉路画材店',
     endText: '画笔和颜料在暖灯下安静地睡着了。',
-    heroAsset: 'assets/cunxian-level11.png?v=20261020b',
+    heroAsset: 'assets/cunxian-level11.png?v=20261020d',
   },
   12: {
     id: 12,
@@ -147,6 +150,30 @@ const LEVELS = {
     badge: '第十三关 · 西西里的人鱼传说',
     endText: '西西里海风里的人鱼传说暂时收进了浪花。',
     heroAsset: 'assets/cunxian-level13.png?v=20261020b',
+  },
+  14: {
+    id: 14,
+    eyebrow: 'Sui Ying Lu Opera Stage · Level 14',
+    subtitle: '第十四关走进《碎影录》的民国戏台：青绿檐幕、米金灯色、翡翠珠帘与浅木雕花戏台铺成一段戏曲旧梦。板鼓、铜锣、红缨枪、戏箱、铙钹、脸谱、宫灯和令旗都成了台上要躲的物件，水袖翻飞间跟着饰演「随音」的存贤踩着锣鼓点一路狂奔。',
+    badge: '第十四关 · 碎影录戏台',
+    endText: '锣鼓声歇，珠帘后的随音轻轻合上了戏折。',
+    heroAsset: 'assets/cunxian-level14.png?v=20261020d',
+  },
+  15: {
+    id: 15,
+    eyebrow: 'Heroic Stage · Level 15',
+    subtitle: '第十五关来到《英雄本色》的港岛街头与码头：蓝灰色雨后街道、警车、霓虹招牌与琥珀色灯光织成一段电影梦境。伪钞箱、油桶、路障、警灯与胶片都成了要躲避的障碍。跟随着饰演「宋子杰」的存贤，在码头的夜色与哨音中一路突围。',
+    badge: '第十五关 · 英雄本色码头',
+    endText: '码头的汽笛声远去，宋子杰消失在黑白胶片的余晖中。',
+    heroAsset: 'assets/cunxian-level15.png?v=20261021',
+  },
+  16: {
+    id: 16,
+    eyebrow: 'Flowers for Algernon · Level 16',
+    subtitle: '第十六关走进《献给阿尔吉侬的花束》的美国心理学实验室：薄荷绿墙面、暖木实验台、迷宫测试与旧式脑波仪构成查理接受实验的世界。实验档案、显微镜、测试写字板、玻璃器皿、白鼠笼、迷宫卡、白色花束与脑波纸带都成为需要避开的障碍。跟随存贤饰演的斯特劳斯医生，穿过理性与温柔交织的实验室。',
+    badge: '第十六关 · 阿尔吉侬实验室',
+    endText: '实验记录合上了，白色花束静静留在阿尔吉侬的窗边。',
+    heroAsset: 'assets/cunxian-level16.png?v=20261021',
   },
 };
 
@@ -165,6 +192,9 @@ const heroSpriteFrames = {
   11: null,
   12: null,
   13: null,
+  14: null,
+  15: null,
+  16: null,
 };
 
 const stage = {
@@ -364,7 +394,7 @@ function setAudioMuted(muted) {
 }
 
 function ensureCompletionStamps() {
-  for (let i = 1; i <= 13; i += 1) {
+  for (let i = 1; i <= 16; i += 1) {
     const card = document.querySelector(`.level-preview-card-${i}`);
     if (!card) continue;
     let stamp = card.querySelector('.completion-stamp');
@@ -382,7 +412,7 @@ function ensureCompletionStamps() {
 function refreshCompletionStamps() {
   reloadCompletedLevelsFromStorage();
   ensureCompletionStamps();
-  for (let i = 1; i <= 13; i += 1) {
+  for (let i = 1; i <= 16; i += 1) {
     const card = document.querySelector(`.level-preview-card-${i}`);
     const stamp = card?.querySelector('.completion-stamp');
     if (!card || !stamp) continue;
@@ -487,6 +517,10 @@ function prepareHeroSprite(levelKey, image) {
 
   const spriteContext = spriteCanvas.getContext('2d');
   spriteContext.drawImage(image, 0, 0);
+  if (Number(levelKey) === 15 || Number(levelKey) === 16) {
+    heroSpriteFrames[levelKey] = spriteCanvas;
+    return;
+  }
 
   const imageData = spriteContext.getImageData(0, 0, spriteCanvas.width, spriteCanvas.height);
   const { data, width, height } = imageData;
@@ -681,6 +715,11 @@ function updateLevelTexts() {
 }
 
 function showLevelSelect() {
+  startGame.request = (startGame.request || 0) + 1;
+  startLevel15Button.disabled = false;
+  startLevel15Button.textContent = '进入第十五关';
+  startLevel16Button.disabled = false;
+  startLevel16Button.textContent = '进入第十六关';
   state.running = false;
   state.gameOver = false;
   state.levelComplete = false;
@@ -691,7 +730,7 @@ function showLevelSelect() {
   levelCompleteOverlay.classList.remove('overlay-visible');
   heroEyebrowNode.textContent = 'Curtain Selection · Free Play';
   // heroSubtitleNode 保持 HTML 中的全局游戏介绍，不在选关时覆盖
-  levelBadgeNode.textContent = '自由选关 · 十二主题舞台';
+  levelBadgeNode.textContent = '自由选关 · 十六主题舞台';
   applyTheme('menu');
   refreshCompletionStamps();
   updateMobileGameLayout();
@@ -743,10 +782,53 @@ function resetGame() {
 }
 
 async function startGame(level = state.level) {
-  // 开局前等待当前关卡角色图解码/抠图完成，最多等 8 秒；避免图未就绪时显示简笔画 fallback
+  loadIllustratedLevel(level);
+  const request = startGame.request = (startGame.request || 0) + 1;
   const waitStarted = performance.now();
-  while (!heroSpriteFrames[level] && performance.now() - waitStarted < 8000) {
-    await new Promise((resolve) => setTimeout(resolve, 60));
+  const special = level === 15
+    ? { button: startLevel15Button, label: '进入第十五关', assets: [heroicBackdrop, ...Object.values(heroicPropImages)], ready: heroicAssetsReady, retryKey: 'retryHeroic' }
+    : level === 16
+      ? { button: startLevel16Button, label: '进入第十六关', assets: [straussBackdrop, ...Object.values(straussPropImages)], ready: straussAssetsReady, retryKey: 'retryStrauss' }
+      : null;
+  const ready = () => Boolean(heroSpriteFrames[level]) && (!special || special.ready());
+  const retryMissing = () => {
+    if (!special) return;
+    special.assets.filter((image) => !image.naturalWidth).forEach((image) => image.retryLoad());
+    if (!heroSpriteFrames[level]) {
+      const image = heroSprites[level];
+      if (image.complete && image.naturalWidth) prepareHeroSprite(level, image);
+      else image.src = `${LEVELS[level].heroAsset}&retryStart=${request}`;
+    }
+  };
+  for (const [button, label] of [[startLevel15Button, '进入第十五关'], [startLevel16Button, '进入第十六关']]) {
+    if (!special || special.button !== button) {
+      button.disabled = false;
+      button.textContent = label;
+    }
+  }
+  if (special) {
+    special.button.disabled = true;
+    if (startGame[special.retryKey]) retryMissing();
+    else special.assets.filter((image) => image.complete && !image.naturalWidth).forEach((image) => image.retryLoad());
+  }
+  const timeout = special ? 60000 : 8000;
+  while (!ready() && performance.now() - waitStarted < timeout) {
+    if (request !== startGame.request) return;
+    if (special) {
+      const count = special.assets.filter((image) => image.complete && image.naturalWidth > 0).length + Number(Boolean(heroSpriteFrames[level]));
+      special.button.textContent = `正在加载 ${count}/10，请稍候…`;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  if (request !== startGame.request) return;
+  if (special) {
+    special.button.disabled = false;
+    startGame[special.retryKey] = !ready();
+    if (!ready()) {
+      special.button.textContent = '加载较慢，点此继续重试';
+      return;
+    }
+    special.button.textContent = special.label;
   }
   // 防御：每次开局都清理通关状态，避免从选关页/通关页返回后无法再次触发通关
   state.levelComplete = false;
@@ -855,7 +937,86 @@ function triggerJump() {
 }
 
 function obstacleCatalog() {
+  if (state.level === 16) return straussObstacleCatalog();
+  if (state.level === 15) return heroicObstacleCatalog();
   const airLift = Math.min(72, Math.floor(state.elapsed / 14) * 14);
+
+  if (state.level === 14) {
+    return [
+      {
+        type: 'opera-drum',
+        lane: 'ground',
+        width: 112,
+        height: 132,
+        y: stage.floorY - 132,
+        color: '#a52326',
+        accent: '#e8c36a',
+      },
+      {
+        type: 'opera-spear',
+        lane: 'ground',
+        width: 72,
+        height: 158,
+        y: stage.floorY - 158,
+        color: '#7a4a22',
+        accent: '#d92b2b',
+      },
+      {
+        type: 'opera-trunk',
+        lane: 'ground',
+        width: 122,
+        height: 98,
+        y: stage.floorY - 98,
+        color: '#8f2320',
+        accent: '#d8ab52',
+      },
+      {
+        type: 'opera-cymbal',
+        lane: 'ground',
+        width: 98,
+        height: 108,
+        y: stage.floorY - 108,
+        color: '#d9a93f',
+        accent: '#fff0b8',
+      },
+      {
+        type: 'opera-gong',
+        lane: 'air',
+        width: 122,
+        height: 106,
+        y: 96,
+        color: '#caa23e',
+        accent: '#7a1416',
+      },
+      {
+        type: 'opera-mask',
+        lane: 'air',
+        width: 92,
+        height: 110,
+        y: 104,
+        color: '#c5302f',
+        accent: '#f3ead2',
+      },
+      {
+        type: 'opera-lantern',
+        lane: 'air',
+        width: 88,
+        height: 120,
+        y: 96,
+        color: '#d63835',
+        accent: '#f3cf6e',
+      },
+      {
+        type: 'opera-flag',
+        lane: 'air',
+        width: 96,
+        height: 126,
+        y: 102,
+        color: '#9c1f24',
+        accent: '#e6c163',
+      },
+    ];
+  }
 
   if (state.level === 13) {
     return [
@@ -1596,7 +1757,21 @@ function spawnObstacle() {
     spawnPipePair();
     return;
   }
-  const options = obstacleCatalog();
+  const options = obstacleCatalog().map((item) => {
+    if (state.level <= 13 && item.lane === 'air') return { ...item, y: Math.min(item.y, 220 - item.height) };
+    return item;
+  }).filter((item) => {
+    if (state.level === 14) return operaPropBounds(item);
+    if (state.level === 15) return heroicPropBounds(item);
+    if (state.level === 16) return straussPropBounds(item);
+    return true;
+  });
+  if (state.level === 14 || state.level === 15 || state.level === 16) {
+    if (options.length !== 8) return;
+    const nextX = stage.width + 120;
+    const minimumGap = Math.max(920, state.speed * 1.8);
+    if (obstacles.some((item) => nextX - item.x - item.width < minimumGap)) return;
+  }
   const shouldPreferAir = state.lastSpawnLane === 'ground' ? Math.random() > 0.48 : Math.random() > 0.72;
   const primaryLane = shouldPreferAir ? 'air' : 'ground';
   const primaryPool = options.filter((item) => item.lane === primaryLane);
@@ -1604,6 +1779,7 @@ function spawnObstacle() {
 
   obstacles.push({
     ...chosen,
+    useIllustration: isIllustratedReady(chosen.type),
     x: stage.width + 120,
     passed: false,
     phase: Math.random() * Math.PI * 2,
@@ -1621,6 +1797,7 @@ function spawnObstacle() {
     const secondary = secondaryPool[Math.floor(Math.random() * secondaryPool.length)];
     obstacles.push({
       ...secondary,
+      useIllustration: isIllustratedReady(secondary.type),
       x: stage.width + (state.level === 7 ? 720 : 800) + Math.random() * 200,
       passed: false,
       phase: Math.random() * Math.PI * 2,
@@ -1642,6 +1819,7 @@ function spawnPipePair() {
 
   obstacles.push({
     type: 'pipe-top',
+    useIllustration: isIllustratedReady('pipe-top'),
     lane: 'ceiling',
     x,
     y: 0,
@@ -1656,6 +1834,7 @@ function spawnPipePair() {
   });
   obstacles.push({
     type: 'pipe-bottom',
+    useIllustration: isIllustratedReady('pipe-bottom'),
     lane: 'ground',
     x,
     y: bottomStart,
@@ -1679,7 +1858,7 @@ function updateGame(delta) {
   }
 
   state.elapsed += delta;
-  const baseSpeed = 340 + Math.min(180, state.elapsed * 8.5) + (state.level === 2 ? 28 : 0) + (state.level === 3 ? 44 : 0) + (state.level === 4 ? 34 : 0) + (state.level === 5 ? 24 : 0) + (state.level === 6 ? 32 : 0) + (state.level === 7 ? 42 : 0) + (state.level === 8 ? 30 : 0) + (state.level === 9 ? 34 : 0) + (state.level === 10 ? 36 : 0) + (state.level === 11 ? 32 : 0) + (state.level === 13 ? 34 : 0);
+  const baseSpeed = 340 + Math.min(180, state.elapsed * 8.5) + (state.level === 2 ? 28 : 0) + (state.level === 3 ? 44 : 0) + (state.level === 4 ? 34 : 0) + (state.level === 5 ? 24 : 0) + (state.level === 6 ? 32 : 0) + (state.level === 7 ? 42 : 0) + (state.level === 8 ? 30 : 0) + (state.level === 9 ? 34 : 0) + (state.level === 10 ? 36 : 0) + (state.level === 11 ? 32 : 0) + (state.level === 13 ? 34 : 0) + (state.level === 14 ? 36 : 0) + (state.level === 15 ? 36 : 0) + (state.level === 16 ? 34 : 0);
   // 通关后随分数持续加速，1500 分为通关基线，每多 1 分速度 +0.32，最多再加 340（约 2500+ 分后趋于饱和）
   const overClearBoost = state.levelComplete
     ? Math.min(340, Math.max(0, state.score - CLEAR_SCORE) * 0.32)
@@ -1822,9 +2001,14 @@ function updateGame(delta) {
 }
 
 function getObstacleHitbox(obstacle) {
+  if (obstacle.type.startsWith('opera-')) return operaPropHitbox(obstacle);
+  if (obstacle.type.startsWith('heroic-')) return heroicPropHitbox(obstacle);
+  if (obstacle.type.startsWith('strauss-')) return straussPropHitbox(obstacle);
   if (obstacle.type === 'pipe-top' || obstacle.type === 'pipe-bottom') {
     return { x: obstacle.x + 6, y: obstacle.y, width: obstacle.width - 12, height: obstacle.height };
   }
+  const illustratedBox = illustratedHitbox(obstacle);
+  if (illustratedBox) return illustratedBox;
   if (obstacle.type === 'mic-stand') {
     return { x: obstacle.x + 18, y: obstacle.y + 10, width: obstacle.width - 36, height: obstacle.height - 8 };
   }
@@ -2052,6 +2236,19 @@ function rectsOverlap(a, b) {
 }
 
 function drawBackground(time) {
+  if (state.level === 14) {
+    drawOperaStage(time);
+    return;
+  }
+  if (state.level === 15) {
+    drawHeroicStage(time);
+    return;
+  }
+  if (state.level === 16) {
+    drawStraussStage(time);
+    return;
+  }
+
   if (state.level === 13) {
     const sky = ctx.createLinearGradient(0, 0, 0, stage.height);
     sky.addColorStop(0, '#89e7ff');
@@ -2178,9 +2375,9 @@ function drawBackground(time) {
 
   if (state.level === 5) {
     const sky = ctx.createLinearGradient(0, 0, 0, stage.height);
-    sky.addColorStop(0, '#8b7953');
-    sky.addColorStop(0.5, '#5a482f');
-    sky.addColorStop(1, '#1f1710');
+    sky.addColorStop(0, '#f9dca8');
+    sky.addColorStop(0.5, '#eab982');
+    sky.addColorStop(1, '#b97855');
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, stage.width, stage.height);
 
@@ -3028,6 +3225,135 @@ function drawXinjiFloor() {
   }
 }
 
+
+// ------- Level 14: Sui Ying Lu Opera stage backdrop -------
+function drawOperaBackHall(time) {
+  // 远处模糊的古建戏厅内景
+  const drift = (state.elapsed * state.speed * 0.05) % 800;
+  for (let i = -1; i < 3; i++) {
+    const x = i * 800 - drift;
+    ctx.fillStyle = 'rgba(50, 15, 20, 0.45)';
+    ctx.fillRect(x + 100, 200, 600, 410);
+    // 简略斗拱
+    ctx.fillStyle = 'rgba(40, 10, 12, 0.55)';
+    for (let j = 0; j < 6; j++) {
+      ctx.fillRect(x + 140 + j * 90, 190, 40, 20);
+    }
+  }
+}
+
+function drawOperaJadeCurtain(time) {
+  // 翡翠珠帘效果
+  const drift = (state.elapsed * state.speed * 0.12) % 40;
+  ctx.save();
+  ctx.lineWidth = 1.5;
+  for (let x = -40; x < stage.width + 40; x += 18) {
+    const offsetX = x - drift;
+    const swing = Math.sin(time * 0.0015 + x * 0.01) * 8;
+    ctx.strokeStyle = 'rgba(46, 139, 87, 0.38)'; // 翡翠绿
+    ctx.beginPath();
+    ctx.moveTo(offsetX + swing, 60);
+    ctx.lineTo(offsetX + swing * 1.5, 480);
+    ctx.stroke();
+    // 串珠
+    ctx.fillStyle = 'rgba(100, 255, 180, 0.25)';
+    for (let y = 80; y < 460; y += 42) {
+      ctx.beginPath();
+      ctx.arc(offsetX + swing + (y-80)*swing*0.0012, y, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  ctx.restore();
+}
+
+function drawOperaValance(time) {
+  // 顶部朱红檐幕
+  ctx.fillStyle = '#8a1d22';
+  ctx.fillRect(0, 0, stage.width, 92);
+  // 装饰金边
+  ctx.fillStyle = '#d4af37';
+  ctx.fillRect(0, 92, stage.width, 6);
+  // 垂下的流苏
+  for (let x = 12; x < stage.width; x += 32) {
+    ctx.fillStyle = '#b32429';
+    ctx.fillRect(x, 98, 4, 18);
+    ctx.fillStyle = '#d4af37';
+    ctx.fillRect(x - 2, 116, 8, 8);
+  }
+}
+
+function drawOperaPillars(time) {
+  // 鎏金漆柱
+  const drift = (state.elapsed * state.speed * 0.35) % 1600;
+  for (let i = -1; i < 2; i++) {
+    const x = i * 1600 - drift + 200;
+    const grad = ctx.createLinearGradient(x, 0, x + 88, 0);
+    grad.addColorStop(0, '#5a1216');
+    grad.addColorStop(0.4, '#a52326');
+    grad.addColorStop(0.6, '#a52326');
+    grad.addColorStop(1, '#4a0c0e');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, 92, 88, 518);
+    // 柱子上的龙纹或回云纹简画
+    ctx.strokeStyle = 'rgba(232, 195, 106, 0.28)';
+    ctx.lineWidth = 3;
+    for (let y = 160; y < 580; y += 120) {
+      ctx.strokeRect(x + 22, y, 44, 44);
+    }
+  }
+}
+
+function drawOperaHangingLanterns(time) {
+  // 飘动的红宫灯
+  const drift = (state.elapsed * state.speed * 0.22) % 1200;
+  for (let i = -1; i < 3; i++) {
+    const x = i * 600 - drift + 400;
+    const y = 140 + Math.sin(time * 0.0012 + i) * 25;
+    ctx.save();
+    ctx.translate(x, y);
+    // 灯绳
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, -60); ctx.lineTo(0, 0); ctx.stroke();
+    // 灯身
+    const g = ctx.createRadialGradient(0, 0, 5, 0, 0, 45);
+    g.addColorStop(0, '#ff4d4d'); g.addColorStop(1, '#a51c20');
+    ctx.fillStyle = g;
+    roundRect(ctx, -38, -32, 76, 64, 15, true, false);
+    // 灯穗
+    ctx.fillStyle = '#d4af37';
+    ctx.fillRect(-2, 32, 4, 30);
+    ctx.restore();
+  }
+}
+
+function drawOperaGoldDust(time) {
+  // 舞台上的金粉微粒
+  for (let i = 0; i < 15; i++) {
+    const x = (i * 137 + time * 0.08) % stage.width;
+    const y = (i * 219 + time * 0.04) % 500 + 80;
+    const op = 0.15 + Math.sin(time * 0.002 + i) * 0.1;
+    ctx.fillStyle = `rgba(255, 220, 100, ${op})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 1.5 + (i % 2), 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawOperaFloor() {
+  // 舞台木地板
+  const grad = ctx.createLinearGradient(0, stage.floorY, 0, stage.height);
+  grad.addColorStop(0, '#4a1b1d');
+  grad.addColorStop(1, '#2a0c0e');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, stage.floorY, stage.width, stage.height - stage.floorY);
+  // 木纹线
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+  ctx.lineWidth = 2;
+  for (let y = stage.floorY + 24; y < stage.height; y += 32) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(stage.width, y); ctx.stroke();
+  }
+}
 // ------- Level 13: Sicily Mermaid seaside town -------
 function drawSicilySunAndClouds(time) {
   // 太阳高光
@@ -4116,12 +4442,12 @@ function drawShanghaiStreetFloor() {
 
 function drawCozyHomeBackdrop(time) {
   const wood = ctx.createLinearGradient(0, 80, 0, 560);
-  wood.addColorStop(0, 'rgba(191, 163, 109, 0.32)');
-  wood.addColorStop(1, 'rgba(86, 66, 42, 0.18)');
+  wood.addColorStop(0, 'rgba(255, 239, 202, 0.56)');
+  wood.addColorStop(1, 'rgba(207, 148, 98, 0.28)');
   ctx.fillStyle = wood;
   roundRect(ctx, 48, 70, stage.width - 96, 470, 26, true, false);
 
-  ctx.strokeStyle = 'rgba(106, 81, 50, 0.3)';
+  ctx.strokeStyle = 'rgba(157, 102, 66, 0.26)';
   ctx.lineWidth = 3;
   for (let x = 86; x < stage.width - 86; x += 94) {
     ctx.beginPath();
@@ -4130,7 +4456,7 @@ function drawCozyHomeBackdrop(time) {
     ctx.stroke();
   }
 
-  ctx.fillStyle = 'rgba(215, 195, 156, 0.16)';
+  ctx.fillStyle = 'rgba(255, 247, 218, 0.32)';
   roundRect(ctx, 120, 120, 280, 214, 18, true, false);
   const flowers = [
     [170, 170], [246, 164], [324, 178], [198, 246], [284, 252], [352, 236],
@@ -4266,9 +4592,9 @@ function drawWallpaperFlowers(time) {
 
 function drawCozyHomeFloor() {
   const floor = ctx.createLinearGradient(0, stage.floorY - 22, 0, stage.height);
-  floor.addColorStop(0, '#7a6041');
-  floor.addColorStop(0.46, '#4d3925');
-  floor.addColorStop(1, '#1d140f');
+  floor.addColorStop(0, '#c89062');
+  floor.addColorStop(0.46, '#a96849');
+  floor.addColorStop(1, '#744637');
   ctx.fillStyle = floor;
   ctx.fillRect(0, stage.floorY, stage.width, stage.height - stage.floorY);
 
@@ -4400,6 +4726,7 @@ function drawCasinoFloor() {
 
 function drawObstacles() {
   obstacles.forEach((obstacle) => {
+    if (drawIllustratedObstacle(obstacle)) return;
     ctx.save();
     const floatOffset = ['floating-note', 'floating-letter', 'chip-stack', 'sicily-net', 'sicily-fish-school'].includes(obstacle.type)
       ? 8
@@ -4633,6 +4960,36 @@ function drawObstacles() {
         break;
       case 'sicily-fish-school':
         drawSicilyFishSchoolObstacle(obstacle);
+        break;
+      case 'opera-drum':
+      case 'opera-spear':
+      case 'opera-trunk':
+      case 'opera-cymbal':
+      case 'opera-gong':
+      case 'opera-mask':
+      case 'opera-lantern':
+      case 'opera-flag':
+        drawOperaProp(obstacle);
+        break;
+      case 'heroic-crate':
+      case 'heroic-briefcase':
+      case 'heroic-barrel':
+      case 'heroic-barrier':
+      case 'heroic-beacon':
+      case 'heroic-cash':
+      case 'heroic-sign':
+      case 'heroic-reel':
+        drawHeroicProp(obstacle);
+        break;
+      case 'strauss-file-box':
+      case 'strauss-microscope':
+      case 'strauss-test-clipboard':
+      case 'strauss-glassware':
+      case 'strauss-mouse-cage':
+      case 'strauss-maze-card':
+      case 'strauss-white-bouquet':
+      case 'strauss-eeg-strip':
+        drawStraussProp(obstacle);
         break;
       case 'pipe-top':
         drawPipeObstacle(obstacle, 'top');
@@ -5206,6 +5563,112 @@ function drawSicilyFishSchoolObstacle(obstacle) {
   ctx.moveTo(18, obstacle.height - 22);
   ctx.quadraticCurveTo(64, obstacle.height - 42, 120, obstacle.height - 22);
   ctx.stroke();
+}
+
+// ------- Level 14 obstacles: Opera props -------
+function drawOperaDrumObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  // 鼓身
+  ctx.fillStyle = o.color;
+  roundRect(ctx, 0, 10, o.width, o.height - 10, 8, true, false);
+  // 鼓面
+  ctx.fillStyle = '#f3ead2';
+  ctx.beginPath(); ctx.ellipse(o.width/2, 10, o.width/2, 15, 0, 0, Math.PI*2); ctx.fill();
+  // 装饰钉
+  ctx.fillStyle = o.accent;
+  for(let i=0; i<8; i++) {
+    ctx.beginPath(); ctx.arc(8 + i*(o.width-16)/7, 30, 4, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawOperaSpearObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  // 杆
+  ctx.fillStyle = o.color;
+  ctx.fillRect(o.width/2 - 5, 40, 10, o.height - 40);
+  // 缨
+  ctx.fillStyle = o.accent;
+  ctx.beginPath(); ctx.moveTo(o.width/2 - 15, 40); ctx.lineTo(o.width/2 + 15, 40); ctx.lineTo(o.width/2, 75); ctx.fill();
+  // 尖
+  ctx.fillStyle = '#d1d5db';
+  ctx.beginPath(); ctx.moveTo(o.width/2 - 10, 40); ctx.lineTo(o.width/2 + 10, 40); ctx.lineTo(o.width/2, 0); ctx.fill();
+  ctx.restore();
+}
+
+function drawOperaTrunkObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  ctx.fillStyle = o.color;
+  roundRect(ctx, 0, 0, o.width, o.height, 6, true, false);
+  ctx.strokeStyle = o.accent; ctx.lineWidth = 4;
+  ctx.strokeRect(8, 8, o.width-16, o.height-16);
+  // 锁扣
+  ctx.fillStyle = o.accent; ctx.fillRect(o.width/2 - 10, 15, 20, 25);
+  ctx.restore();
+}
+
+function drawOperaCymbalObstacle(o) {
+  ctx.save(); ctx.translate(o.x + o.width/2, o.y + o.height/2);
+  const pulse = Math.sin(Date.now() * 0.008) * 5;
+  ctx.rotate(pulse * 0.02);
+  ctx.fillStyle = o.color;
+  ctx.beginPath(); ctx.arc(0, 0, o.width/2, 0, Math.PI*2); ctx.fill();
+  // 核心凸起
+  ctx.fillStyle = o.accent;
+  ctx.beginPath(); ctx.arc(0, 0, 18, 0, Math.PI*2); ctx.fill();
+  // 红绸
+  ctx.fillStyle = '#d92b2b'; ctx.fillRect(-4, 0, 8, 45);
+  ctx.restore();
+}
+
+function drawOperaGongObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  // 架子
+  ctx.strokeStyle = '#4a2c16'; ctx.lineWidth = 6;
+  ctx.strokeRect(10, 0, o.width-20, o.height);
+  // 锣
+  ctx.fillStyle = o.color;
+  ctx.beginPath(); ctx.arc(o.width/2, o.height/2, 42, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = o.accent; ctx.lineWidth = 3; ctx.stroke();
+  ctx.restore();
+}
+
+function drawOperaMaskObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  ctx.fillStyle = o.accent;
+  ctx.beginPath(); ctx.ellipse(o.width/2, o.height/2, o.width/2, o.height/2, 0, 0, Math.PI*2); ctx.fill();
+  // 脸谱花纹
+  ctx.strokeStyle = o.color; ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(o.width*0.2, o.height*0.4); ctx.quadraticCurveTo(o.width/2, o.height*0.1, o.width*0.8, o.height*0.4); ctx.stroke();
+  ctx.fillStyle = o.color; ctx.beginPath(); ctx.arc(o.width/2, o.height*0.65, 12, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function drawOperaLanternObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  ctx.fillStyle = o.color;
+  roundRect(ctx, 10, 15, o.width - 20, o.height - 40, 12, true, false);
+  // 上下盖
+  ctx.fillStyle = o.accent;
+  ctx.fillRect(5, 5, o.width - 10, 15);
+  ctx.fillRect(5, o.height - 25, o.width - 10, 15);
+  // 黄光
+  ctx.shadowBlur = 20; ctx.shadowColor = o.accent;
+  ctx.fillStyle = 'rgba(255, 230, 120, 0.6)';
+  ctx.fillRect(o.width/2 - 12, 35, 24, 40);
+  ctx.restore();
+}
+
+function drawOperaFlagObstacle(o) {
+  ctx.save(); ctx.translate(o.x, o.y);
+  // 旗杆
+  ctx.fillStyle = '#4b321c'; ctx.fillRect(o.width-12, 0, 8, o.height);
+  // 旗面（飘动）
+  const wave = Math.sin(Date.now()*0.005) * 10;
+  ctx.fillStyle = o.color;
+  ctx.beginPath(); ctx.moveTo(o.width-12, 10); ctx.lineTo(10, 40+wave); ctx.lineTo(o.width-12, 90); ctx.fill();
+  ctx.fillStyle = o.accent; ctx.font = 'bold 24px serif'; ctx.fillText('令', o.width-48, 55+wave/2);
+  ctx.restore();
 }
 
 function drawSandcastleObstacle(obstacle) {
@@ -6778,6 +7241,13 @@ function handleAction(event) {
   }
 }
 
+Object.keys(illustratedLevelTypes).forEach((level) => {
+  const button = document.getElementById(`startLevel${level}Button`);
+  button.addEventListener('pointerenter', () => loadIllustratedLevel(level), { once: true });
+  button.addEventListener('focus', () => loadIllustratedLevel(level), { once: true });
+  button.addEventListener('touchstart', () => loadIllustratedLevel(level), { once: true, passive: true });
+});
+
 startLevel1Button.addEventListener('click', () => startGame(1));
 startLevel2Button.addEventListener('click', () => startGame(2));
 startLevel3Button.addEventListener('click', () => startGame(3));
@@ -6791,6 +7261,9 @@ startLevel10Button.addEventListener('click', () => startGame(10));
 startLevel11Button.addEventListener('click', () => startGame(11));
 startLevel12Button.addEventListener('click', () => startGame(12));
 startLevel13Button.addEventListener('click', () => startGame(13));
+startLevel14Button.addEventListener('click', () => startGame(14));
+startLevel15Button.addEventListener('click', () => startGame(15));
+startLevel16Button.addEventListener('click', () => startGame(16));
 restartButton.addEventListener('click', () => startGame());
 backToMenuButton.addEventListener('click', showLevelSelect);
 replayLevelButton.addEventListener('click', () => {
@@ -6924,7 +7397,7 @@ async function hitHot(level) {
 }
 
 function ensureHotBadges() {
-  for (let i = 1; i <= 13; i++) {
+  for (let i = 1; i <= 16; i++) {
     const card = document.querySelector(`.level-preview-card-${i}`);
     if (!card) continue;
     let badge = card.querySelector('.hot-badge');
@@ -6941,7 +7414,7 @@ function ensureHotBadges() {
 async function refreshAllHotCounts() {
   ensureHotBadges();
   await Promise.all(
-    Array.from({ length: 13 }, (_, idx) => {
+    Array.from({ length: 16 }, (_, idx) => {
       const level = idx + 1;
       return fetchHot(level).then((v) => {
         if (v != null) setHotBadge(level, v);
@@ -6956,6 +7429,9 @@ function bindHotHitCounters() {
     startLevel5Button, startLevel6Button, startLevel7Button, startLevel8Button,
     startLevel9Button, startLevel10Button, startLevel11Button, startLevel12Button,
     startLevel13Button,
+    startLevel14Button,
+    startLevel15Button,
+    startLevel16Button,
   ];
   buttons.forEach((btn, idx) => {
     if (!btn) return;

@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>存贤快跑</title>
-    <link rel="stylesheet" href="styles.css?v=20261020b" />
+    <link rel="preload" as="image" href="assets/cunxian-level15.png?v=20261021" fetchpriority="high" />
+    <link rel="preload" as="image" href="assets/heroic/harbour.jpg?v=20261021-l15fix1" fetchpriority="high" />
+    <link rel="stylesheet" href="styles.css?v=20261021-l16" />
     <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   </head>
   <body>
@@ -75,8 +77,8 @@
             <p class="overlay-tag">Select Level</p>
             <h2>选择关卡</h2>
             <p>
-              现在十关都可以直接进入，不用解锁。第一关是百老汇舞台跑酷，第二关是“粉丝来信”图书馆跑酷，
-              第三关是武侠竹林决斗跑酷，第四关是桑塔露琪亚意大利小赌场跑酷，第五关是“邦尼帮你的小家”温馨家庭跑酷，第六关是“三风一树”老上海滩跑酷，第七关是“双重危机”好莱坞舞台跑酷，第八关是“本杰明·巴顿奇事”复古舞台跑酷，第九关是“去你的夏天”海岛跑酷，第十关是“宝玉”红楼梦跑酷，都保留连续抛物线跳跃玩法，你可以随时自由选择。
+              现在十六关都可以直接进入，不用解锁。第一关是百老汇舞台跑酷，第二关是“粉丝来信”图书馆跑酷，
+              第三关是武侠竹林决斗跑酷，第四关是桑塔露琪亚意大利小赌场跑酷，第五关是“邦尼帮你的小家”温馨家庭跑酷，第六关是“三风一树”老上海滩跑酷，第七关是“双重危机”好莱坞舞台跑酷，第八关是“本杰明·巴顿奇事”复古舞台跑酷，第九关是“去你的夏天”海岛跑酷，第十关是“宝玉”红楼梦跑酷，第十一关是辛吉路画材店跑酷，第十二关是“致命旋律”飞行乐章，第十三关是“西西里的人鱼传说”海边跑酷，第十四关是《碎影录》民国戏曲戏台跑酷，第十五关是《英雄本色》港岛码头跑酷，第十六关是《献给阿尔吉侬的花束》美国实验室跑酷；除第十二关为飞行玩法，其余关卡均保留连续抛物线跳跃玩法，你可以随时自由选择。
             </p>
             <div class="level-select-grid">
               <article class="level-preview-card level-preview-card-1">
@@ -157,6 +159,24 @@
                 <p>欢迎来到《西西里的人鱼传说》的地中海海边小镇世界，你将以李存贤饰演的 李屿 的身份进行游玩：蓝色海岸、白墙橙顶建筑、渔船与海风；锚、鱼钩、浮标、渔网、鱼群和海草都会来捣乱。</p>
                 <button id="startLevel13Button" type="button">进入第十三关</button>
               </article>
+              <article class="level-preview-card level-preview-card-14">
+                <p class="preview-kicker">Level 14</p>
+                <h3>碎影录 · 随音</h3>
+                <p>欢迎来到《碎影录》的民国戏台世界，你将以李存贤饰演的 随音 的身份进行游玩：青绿檐幕、翡翠珠帘、浅木雕花与米金灯色之下，板鼓、铜锣、红缨枪、戏箱、铙钹、脸谱与令旗齐齐登场。</p>
+                <button id="startLevel14Button" type="button">进入第十四关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-15">
+                <p class="preview-kicker">Level 15 · 港片追逐</p>
+                <h3>英雄本色 · 宋子杰</h3>
+                <p>跟随李存贤饰演的宋子杰奔入八十年代香港：雨后街巷、渡轮码头、仓库与霓虹映着红蓝警灯。跳过货箱、钞票公文箱、油桶和路障；高处的警灯、钞票、招牌与胶片也都是障碍，不是收集物。</p>
+                <button id="startLevel15Button" type="button">进入第十五关</button>
+              </article>
+              <article class="level-preview-card level-preview-card-16">
+                <p class="preview-kicker">Level 16 · 心智实验</p>
+                <h3>献给阿尔吉侬的花束 · 斯特劳斯</h3>
+                <p>跟随李存贤饰演的斯特劳斯医生进入二十世纪中期的美国心理学实验室：迷宫测试、实验档案、显微镜、白鼠笼与脑波记录交织在一起。白色花束也会成为空中障碍，请留意每一次跳跃。</p>
+                <button id="startLevel16Button" type="button">进入第十六关</button>
+              </article>
             </div>
           </div>
         </div>
@@ -190,6 +210,10 @@
       </section>
     </main>
 
-    <script src="script.js?v=20261020b"></script>
+    <script src="opera-stage.js?v=20261021-l15fix1"></script>
+    <script src="heroic-stage.js?v=20261021-l15fix1"></script>
+    <script src="strauss-stage.js?v=20261021-l16"></script>
+    <script src="illustrated-obstacles.js?v=20261021-art1"></script>
+    <script src="script.js?v=20261021-l16"></script>
   </body>
 </html>
