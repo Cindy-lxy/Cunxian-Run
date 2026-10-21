@@ -7248,6 +7248,21 @@ Object.keys(illustratedLevelTypes).forEach((level) => {
   button.addEventListener('touchstart', () => loadIllustratedLevel(level), { once: true, passive: true });
 });
 
+function bindMobileLevelStart(button, level) {
+  button.addEventListener('touchend', (event) => {
+    event.preventDefault();
+    requestGameFullscreen();
+    startGame(level);
+  }, { passive: false });
+}
+
+[
+  startLevel1Button, startLevel2Button, startLevel3Button, startLevel4Button,
+  startLevel5Button, startLevel6Button, startLevel7Button, startLevel8Button,
+  startLevel9Button, startLevel10Button, startLevel11Button, startLevel12Button,
+  startLevel13Button, startLevel14Button, startLevel15Button, startLevel16Button,
+].forEach((button, index) => bindMobileLevelStart(button, index + 1));
+
 startLevel1Button.addEventListener('click', () => startGame(1));
 startLevel2Button.addEventListener('click', () => startGame(2));
 startLevel3Button.addEventListener('click', () => startGame(3));
