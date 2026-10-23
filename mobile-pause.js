@@ -1,26 +1,45 @@
+/* global requestGameFullscreen, state, backgroundMusic, syncBackgroundMusic, showLevelSelect */
 const mobilePauseButton = document.getElementById('pauseButton');
 const mobilePausePanel = document.getElementById('pausePanel');
 const mobileResumeButton = document.getElementById('resumeGameButton');
 const mobileExitButton = document.getElementById('exitGameButton');
 
+document.querySelectorAll('.level-preview-card button').forEach((button) => {
+  button.addEventListener('pointerdown', () => {
+    requestGameFullscreen();
+  });
+});
+
 if (mobilePauseButton && mobilePausePanel && mobileResumeButton && mobileExitButton) {
-  mobilePauseButton.addEventListener('click', () => {
+  const pauseGame = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (!state.running) return;
     state.running = false;
     state.paused = true;
     mobilePausePanel.hidden = false;
-    try { backgroundMusic.pause(); } catch (error) {}
-  });
+    try { backgroundMusic.pause(); } catch {}
+  };
 
-  mobileResumeButton.addEventListener('click', () => {
+  mobilePauseButton.addEventListener('pointerup', pauseGame);
+  mobilePauseButton.addEventListener('click', pauseGame);
+
+  const resumeGame = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     if (!state.paused) return;
     state.paused = false;
     state.running = true;
     mobilePausePanel.hidden = true;
     syncBackgroundMusic();
-  });
+  };
 
-  mobileExitButton.addEventListener('click', () => {
+  mobileResumeButton.addEventListener('pointerup', resumeGame);
+  mobileResumeButton.addEventListener('click', resumeGame);
+
+  mobileExitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     state.paused = false;
     mobilePausePanel.hidden = true;
     showLevelSelect();
