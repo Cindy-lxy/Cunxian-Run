@@ -1,14 +1,8 @@
-/* global requestGameFullscreen, state, backgroundMusic, syncBackgroundMusic, showLevelSelect */
+/* global state, backgroundMusic, syncBackgroundMusic, showLevelSelect */
 const mobilePauseButton = document.getElementById('pauseButton');
 const mobilePausePanel = document.getElementById('pausePanel');
 const mobileResumeButton = document.getElementById('resumeGameButton');
 const mobileExitButton = document.getElementById('exitGameButton');
-
-document.querySelectorAll('.level-preview-card button').forEach((button) => {
-  button.addEventListener('pointerdown', () => {
-    requestGameFullscreen();
-  });
-});
 
 if (mobilePauseButton && mobilePausePanel && mobileResumeButton && mobileExitButton) {
   const pauseGame = (event) => {
