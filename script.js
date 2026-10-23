@@ -22,6 +22,8 @@ const startLevel13Button = document.getElementById('startLevel13Button');
 const startLevel14Button = document.getElementById('startLevel14Button');
 const startLevel15Button = document.getElementById('startLevel15Button');
 const startLevel16Button = document.getElementById('startLevel16Button');
+const mobileLevelForm = document.getElementById('mobileLevelForm');
+const mobileLevelSelect = document.getElementById('mobileLevelSelect');
 const restartButton = document.getElementById('restartButton');
 const backToMenuButton = document.getElementById('backToMenuButton');
 const jumpButton = document.getElementById('jumpButton');
@@ -7291,6 +7293,16 @@ startLevel13Button.addEventListener('click', () => startGame(13));
 startLevel14Button.addEventListener('click', () => startGame(14));
 startLevel15Button.addEventListener('click', () => startGame(15));
 startLevel16Button.addEventListener('click', () => startGame(16));
+if (typeof mobileLevelForm !== 'undefined' && mobileLevelForm && mobileLevelSelect) {
+  mobileLevelForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const level = Number.parseInt(mobileLevelSelect.value, 10);
+    if (level >= 1 && level <= 16) {
+      requestGameFullscreen();
+      startGame(level);
+    }
+  });
+}
 restartButton.addEventListener('click', () => startGame());
 backToMenuButton.addEventListener('click', showLevelSelect);
 replayLevelButton.addEventListener('click', () => {

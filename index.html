@@ -6,7 +6,7 @@
     <title>存贤快跑</title>
     <link rel="preload" as="image" href="assets/cunxian-level15.png?v=20261021" fetchpriority="high" />
     <link rel="preload" as="image" href="assets/heroic/harbour.jpg?v=20261021-l15fix1" fetchpriority="high" />
-    <link rel="stylesheet" href="styles.css?v=20261021-mobilefix2" />
+    <link rel="stylesheet" href="styles.css?v=20261023-mobilepicker1" />
     <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   </head>
   <body>
@@ -76,10 +76,32 @@
           <div class="overlay-card overlay-card-select">
             <p class="overlay-tag">Select Level</p>
             <h2>选择关卡</h2>
-            <p>
+            <p class="level-select-description">
               现在十六关都可以直接进入，不用解锁。第一关是百老汇舞台跑酷，第二关是“粉丝来信”图书馆跑酷，
               第三关是武侠竹林决斗跑酷，第四关是桑塔露琪亚意大利小赌场跑酷，第五关是“邦尼帮你的小家”温馨家庭跑酷，第六关是“三风一树”老上海滩跑酷，第七关是“双重危机”好莱坞舞台跑酷，第八关是“本杰明·巴顿奇事”复古舞台跑酷，第九关是“去你的夏天”海岛跑酷，第十关是“宝玉”红楼梦跑酷，第十一关是辛吉路画材店跑酷，第十二关是“致命旋律”飞行乐章，第十三关是“西西里的人鱼传说”海边跑酷，第十四关是《碎影录》民国戏曲戏台跑酷，第十五关是《英雄本色》港岛码头跑酷，第十六关是《献给阿尔吉侬的花束》美国实验室跑酷；除第十二关为飞行玩法，其余关卡均保留连续抛物线跳跃玩法，你可以随时自由选择。
             </p>
+            <form class="mobile-level-picker" id="mobileLevelForm">
+              <label for="mobileLevelSelect">选择想进入的关卡</label>
+              <select id="mobileLevelSelect" name="level">
+                <option value="1">第 1 关 · 0528</option>
+                <option value="2">第 2 关 · 粉丝来信</option>
+                <option value="3">第 3 关 · 决斗</option>
+                <option value="4">第 4 关 · 桑塔露琪亚</option>
+                <option value="5">第 5 关 · 邦尼帮你</option>
+                <option value="6">第 6 关 · 三风一树</option>
+                <option value="7">第 7 关 · 双重危机</option>
+                <option value="8">第 8 关 · 本杰明·巴顿奇事</option>
+                <option value="9">第 9 关 · 去你的夏天</option>
+                <option value="10">第 10 关 · 宝玉</option>
+                <option value="11">第 11 关 · 辛吉路画材店</option>
+                <option value="12">第 12 关 · 致命旋律</option>
+                <option value="13">第 13 关 · 西西里的人鱼传说</option>
+                <option value="14">第 14 关 · 碎影录</option>
+                <option value="15">第 15 关 · 英雄本色</option>
+                <option value="16">第 16 关 · 献给阿尔吉侬的花束</option>
+              </select>
+              <button type="submit">进入所选关卡</button>
+            </form>
             <div class="level-select-grid">
               <article class="level-preview-card level-preview-card-1">
                 <p class="preview-kicker">Level 1</p>
@@ -214,6 +236,6 @@
     <script src="heroic-stage.js?v=20261021-l15fix1"></script>
     <script src="strauss-stage.js?v=20261021-l16"></script>
     <script src="illustrated-obstacles.js?v=20261021-art1"></script>
-    <script src="script.js?v=20261023-mobilefix3"></script>
+    <script src="script.js?v=20261023-mobilepicker1"></script>
   </body>
 </html>
