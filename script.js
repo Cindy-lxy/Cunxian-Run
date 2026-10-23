@@ -22,8 +22,9 @@ const startLevel13Button = document.getElementById('startLevel13Button');
 const startLevel14Button = document.getElementById('startLevel14Button');
 const startLevel15Button = document.getElementById('startLevel15Button');
 const startLevel16Button = document.getElementById('startLevel16Button');
-const mobileLevelForm = document.getElementById('mobileLevelForm');
-const mobileLevelSelect = document.getElementById('mobileLevelSelect');
+const helpButton = document.getElementById('helpButton');
+const helpPanel = document.getElementById('helpPanel');
+const closeHelpButton = document.getElementById('closeHelpButton');
 const restartButton = document.getElementById('restartButton');
 const backToMenuButton = document.getElementById('backToMenuButton');
 const jumpButton = document.getElementById('jumpButton');
@@ -732,6 +733,9 @@ function showLevelSelect() {
   state.levelComplete = false;
   state.immersiveMobile = false;
   state.orientationTipDismissed = false;
+  document.body?.classList.remove('is-playing');
+  if (typeof helpPanel !== 'undefined' && helpPanel) helpPanel.hidden = true;
+  if (typeof helpButton !== 'undefined' && helpButton) helpButton.setAttribute('aria-expanded', 'false');
   startOverlay.classList.add('overlay-visible');
   gameOverOverlay.classList.remove('overlay-visible');
   levelCompleteOverlay.classList.remove('overlay-visible');
@@ -853,6 +857,9 @@ async function startGame(level = state.level) {
   state.immersiveMobile = true;
   state.orientationTipDismissed = false;
   state.audioUnlocked = true;
+  document.body?.classList.add('is-playing');
+  if (typeof helpPanel !== 'undefined' && helpPanel) helpPanel.hidden = true;
+  if (typeof helpButton !== 'undefined' && helpButton) helpButton.setAttribute('aria-expanded', 'false');
   startOverlay.classList.remove('overlay-visible');
   gameOverOverlay.classList.remove('overlay-visible');
   levelCompleteOverlay.classList.remove('overlay-visible');
@@ -7293,15 +7300,16 @@ startLevel13Button.addEventListener('click', () => startGame(13));
 startLevel14Button.addEventListener('click', () => startGame(14));
 startLevel15Button.addEventListener('click', () => startGame(15));
 startLevel16Button.addEventListener('click', () => startGame(16));
-if (typeof mobileLevelForm !== 'undefined' && mobileLevelForm && mobileLevelSelect) {
-  mobileLevelForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const level = Number.parseInt(mobileLevelSelect.value, 10);
-    if (level >= 1 && level <= 16) {
-      requestGameFullscreen();
-      startGame(level);
-    }
-  });
+
+function setHelpOpen(open) {
+  helpPanel.hidden = !open;
+  helpButton.setAttribute('aria-expanded', String(open));
+}
+
+if (typeof helpButton !== 'undefined' && helpButton && helpPanel && closeHelpButton) {
+  helpButton.addEventListener('click', () => setHelpOpen(helpPanel.hidden));
+  closeHelpButton.addEventListener('click', () => setHelpOpen(false));
+  helpPanel.querySelector('[data-close-help]').addEventListener('click', () => setHelpOpen(false));
 }
 restartButton.addEventListener('click', () => startGame());
 backToMenuButton.addEventListener('click', showLevelSelect);
