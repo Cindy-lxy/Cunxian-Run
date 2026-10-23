@@ -511,6 +511,11 @@ const ambientGhosts = Array.from({ length: 6 }, (_, index) => ({
 }));
 
 function prepareHeroSprite(levelKey, image) {
+  if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+    heroSpriteFrames[levelKey] = image;
+    return;
+  }
+
   const spriteCanvas = document.createElement('canvas');
   spriteCanvas.width = image.naturalWidth;
   spriteCanvas.height = image.naturalHeight;
@@ -790,7 +795,14 @@ async function startGame(level = state.level) {
     : level === 16
       ? { button: startLevel16Button, label: '进入第十六关', assets: [straussBackdrop, ...Object.values(straussPropImages)], ready: straussAssetsReady, retryKey: 'retryStrauss' }
       : null;
-  const ready = () => Boolean(heroSpriteFrames[level]) && (!special || special.ready());
+  const ensureHeroReady = () => {
+    const image = heroSprites[level];
+    if (!heroSpriteFrames[level] && image?.complete && image.naturalWidth > 0) {
+      heroSpriteFrames[level] = image;
+    }
+    return Boolean(heroSpriteFrames[level]);
+  };
+  const ready = () => ensureHeroReady() && (!special || special.ready());
   const retryMissing = () => {
     if (!special) return;
     special.assets.filter((image) => !image.naturalWidth).forEach((image) => image.retryLoad());
